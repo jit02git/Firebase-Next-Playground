@@ -1,12 +1,10 @@
-import { AuthProvider } from "../context/AuthContext";
+import { AuthProvider } from "@/context/AuthContext";
+import "@/styles/globals.css";
 
-export default function RootLayout({ children }) {
+export default function MyApp({ Component, pageProps }) {
   return (
-    <html>
-      <body>
-        <AuthProvider>{children}</AuthProvider>
-      </body>
-    </html>
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
   );
 }
-
