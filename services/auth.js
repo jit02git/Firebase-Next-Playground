@@ -9,6 +9,7 @@ import {
 
 // Register user with Email & Password
 export const registerWithEmail = async (email, password) => {
+  console.log("Registering with email:", email); // <-- add this
   try {
     const result = await createUserWithEmailAndPassword(auth, email, password);
     return result.user;
@@ -17,9 +18,11 @@ export const registerWithEmail = async (email, password) => {
     throw error;
   }
 };
+  
 
 // Login user with Email & Password
 export const loginWithEmail = async (email, password) => {
+  console.log("Logging in with email:", email); // <-- add this
   try {
     const result = await signInWithEmailAndPassword(auth, email, password);
     return result.user;
