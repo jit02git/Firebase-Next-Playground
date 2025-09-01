@@ -10,37 +10,52 @@ export default function AuthPage() {
   const handleLogin = async () => {
     setLoading(true);
     setError("");
+
+    if (!email || !password) {
+      setError("Email and password are required");
+      setLoading(false);
+      return;
+    }
+
+    // Simple email format check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email");
+      setLoading(false);
+      return;
+    }
+
     try {
       await loginWithEmail(email, password);
-      // Optionally redirect or show success
+      // redirect or show success
     } catch (err) {
       setError(err.message || "Login failed");
     }
+
     setLoading(false);
   };
 
   const handleSignup = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      await registerWithEmail(email, password);
-      // Optionally redirect or show success
-    } catch (err) {
-      setError(err.message || "Signup failed");
-    }
-    setLoading(false);
-  };
+  console.log("Email:", email, "Password:", password); // <-- important
+  try {
+    const user = await registerWithEmail(email, password);
+    console.log("Registered user:", user);
+  } catch (err) {
+    console.error("Signup failed:", err);
+  }
+};
+
 
   return (
     <div className="flex flex-col items-center mt-10">
       <h1 className="text-2xl font-bold mb-4">Login / Signup</h1>
       <input
         type="email"
-        placeholder="Email"
-        className="border p-2 mb-2"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        placeholder="Enter your email"
       />
+
       <input
         type="password"
         placeholder="Password"
